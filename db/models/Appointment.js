@@ -14,9 +14,8 @@ class Appointment {
         
     }
 
-    validateTime() {
+    hasValidTime() {
         const minutes = this.time.split(':')[1]
-        console.log(minutes)
         if(minutes != '00' && minutes != '30'){
             return false
         }
@@ -30,19 +29,30 @@ class Appointment {
 
     static async create(userId, date, time) {
         let appointment;
+        let saved_appointment;
         try {
             appointment = new Appointment(date, time, userId)
-            console.log(appointment)
-            if(!appointment.validateTime()){
-                const err = new Error('Invalid time - appointment must begin must start on the hour or half hour')
-                err.status = 400
-                throw err
+            if(!appointment.hasValidTime()){
+                const err = {
+                    name: 'ValidationError',
+                    message: `Invalid time ${time}- appointment must begin must start on the hour or half hour`,
+                    status: 400
+                }                
+                throw err;
             }
         } catch (err) {
             throw err
         }
 
-        const saved_appointment = await this.database.set(appointment, new Key(userId), new Key(date, true));
+        try {
+            saved_appointment = await this.database.set(appointment, new Key(userId), new Key(date, true));
+        } catch (err) {
+            if(err.name === 'UniqueKeyError'){
+                err.message = `Appointment for user ${userId} on ${date} already exists`
+            }
+            throw err
+        }
+        
         return saved_appointment;
     }
 }

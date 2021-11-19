@@ -53,7 +53,12 @@ class DB {
                 if (!storage[keys[i].value]) {
                     storage[keys[i].value] = {};
                 } else if(keys[i].isUnique){
-                    reject(new Error(`${keys[i].value} is not unique`))
+                    const err = {
+                        name: 'UniqueKeyError',
+                        message: `${keys[i].value} does not satisfy uniqueness constraint`,
+                        status: 400
+                    }
+                    reject(err)
                 }
                 storage = storage[keys[i].value];
             }
@@ -61,13 +66,14 @@ class DB {
             data.id = uuidv4();
             const final_key = keys[keys.length - 1];
             if (final_key.isUnique && storage[final_key.value]) {
-                const err = new Error(`${final_key.value} is not unique`)
-                err.status = 400
+                const err = {
+                    name: 'UniqueKeyError',
+                    message: `${final_key.value} does not satisfy uniqueness constraint`,
+                    status: 400
+                }        
                 reject(err)
             }
             storage[final_key.value] = data
-            
-            console.log('storage', this.storage)
             resolve(data)
         });
     }
