@@ -2,6 +2,12 @@
 
 This is a _very simple_ code sample designed to be built in 2 hours as a starting point for code/design discussions. There are lots of things that are not ideal but are meant to lead to discussions on extensibility/scalability/use. This repo should _not_ be used as a reference for building HTTP services.
 
+## How to run
+
+clone this repo and run `npm i`. You can then start the server with `npm run start` and play with Postman or any other software that makes HTTP requests.
+
+## Description
+
 This is an HTTP service that serves two JSON endpoints. It does not store data across restarts.
 
 - /api/v1/appointments
@@ -25,10 +31,6 @@ Getting the userId from the request body is not something that would be done if 
 - all appointments must start and end on the hour or half hour
 - all appointments are exactly 30 minutes long # I kind of ignore this because users can only have a single appointment per day anyway
 - a user can only have 1 appointment on a calendar date
-
-## How to run
-
-clone this repo and run `npm i`. You can then start the server with `npm run start` and play with Postman or any other software that makes HTTP requests.
 
 ## Discussion
 
