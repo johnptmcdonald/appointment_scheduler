@@ -4,7 +4,7 @@ This is a _very simple_ code sample designed to be built in 2 hours as a startin
 
 ## How to run
 
-clone this repo and run `npm i`. You can then start the server with `npm run start` and play with Postman or any other software that makes HTTP requests.
+clone this repo and run `npm i`. This will install the packages you need. You can then start the server with `npm run start` and play with Postman or any other software that makes HTTP requests.
 
 ## Description
 
